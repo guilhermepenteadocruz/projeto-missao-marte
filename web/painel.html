@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel de Controle - Habitat Marte</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1b1b2f; color: #eee; margin: 2rem; }
+    .cartao { background: #25254a; padding: 1rem 1.5rem; border-radius: 8px; max-width: 420px; }
+    input, button { padding: .5rem; margin-top: .5rem; }
+    #mensagem-status { margin-top: 1rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Painel ECLSS - Habitat de Marte</h1>
+  <div class="cartao">
+    <p>Oxigenio disponivel: <span id="nivel-oxigenio">1000</span> kg</p>
+    <p>Agua disponivel: <span id="nivel-agua">3000</span> L</p>
+  </div>
+
+  <form id="form-cota" class="cartao" style="margin-top:1rem">
+    <h2>Solicitar cota extra de oxigenio</h2>
+    <label for="input-quantidade">Quantidade (kg, de 1 a 100):</label><br>
+    <input type="number" id="input-quantidade" name="quantidade">
+    <br>
+    <button type="submit" id="btn-solicitar">Solicitar</button>
+  </form>
+
+  <p id="mensagem-status"></p>
+
+  <script>
+    const LIMITE_COTA_EXTRA = 100;
+    const nivelOxigenio = document.getElementById("nivel-oxigenio");
+    const mensagem = document.getElementById("mensagem-status");
+
+    document.getElementById("form-cota").addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      const quantidade = parseInt(document.getElementById("input-quantidade").value, 10);
+      mensagem.textContent = "Processando solicitacao...";
+
+      // Simula a latencia da comunicacao com a estacao na Terra.
+      setTimeout(function () {
+        if (isNaN(quantidade) || quantidade < 1 || quantidade > LIMITE_COTA_EXTRA) {
+          mensagem.textContent = "Solicitacao negada: quantidade invalida";
+          return;
+        }
+        const atual = parseInt(nivelOxigenio.textContent, 10);
+        nivelOxigenio.textContent = String(atual - quantidade);
+        mensagem.textContent = "Solicitacao aprovada: " + quantidade + " kg";
+      }, 800);
+    });
+  </script>
+</body>
+</html>

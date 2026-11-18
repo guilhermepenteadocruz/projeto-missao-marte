@@ -1,0 +1,5 @@
+pytest
+pytest-mock
+pytest-bdd
+pytest-cov
+selenium
